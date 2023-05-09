@@ -1,0 +1,36 @@
+version: '3'
+services:
+  review-service-mongodb:
+    image: mongo:4.4.0
+    container_name: review-service-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - review_service_data:/data/db
+    networks:
+      - challenge-network
+
+
+  spring-service:
+    image: ejahijagic/review-service:latest
+    container_name: review-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - review-service-mongodb
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://root:root@review-service-mongodb:27017/review-service?authSource=admin
+    networks:
+      - challenge-network
+
+
+volumes:
+  review_service_data:
+
+
+networks:
+  challenge-network:
+    external: true

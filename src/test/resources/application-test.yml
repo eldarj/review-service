@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      uri: "mongodb://${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}
+      auto-index-creation: true
+
+
+security:
+  allowed-origin: '*'

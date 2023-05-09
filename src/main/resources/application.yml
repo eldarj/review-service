@@ -1,1 +1,11 @@
+server.port: 8086
 
+spring:
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://root:root@localhost:27017/review-service?authSource=admin}
+      auto-index-creation: true
+
+application:
+  security:
+    allowed-origin: ${ALLOWED_ORIGIN:*}
