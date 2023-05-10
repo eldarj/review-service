@@ -1,4 +1,4 @@
-package com.ejahijagic.reviewservice.data;
+package com.ejahijagic.reviewservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,7 @@ public class ProductReviewDocument {
 
     @Id
     @Indexed
-    private String productId;
+    private String id;
 
     private Double averageReviewScore;
 
