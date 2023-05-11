@@ -12,8 +12,6 @@ services:
       - review_service_data:/data/db
     networks:
       - challenge-network
-
-
   spring-service:
     image: ejahijagic/review-service:latest
     container_name: review-service
@@ -26,10 +24,8 @@ services:
     networks:
       - challenge-network
 
-
 volumes:
   review_service_data:
-
 
 networks:
   challenge-network:

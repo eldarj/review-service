@@ -1,11 +1,11 @@
 package com.ejahijagic.reviewservice.api;
 
-import com.ejahijagic.reviewservice.data.ProductReviewService;
 import com.ejahijagic.reviewservice.entity.ProductReviewDocument;
+import com.ejahijagic.reviewservice.service.ProductReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/api/product-reviews")
@@ -20,7 +20,7 @@ public class ProductReviewsController {
     }
 
     @GetMapping
-    public List<ProductReviewDocument> findAll() {
+    public Collection<ProductReviewDocument> findAll() {
         return productReviewService.findAll();
     }
 

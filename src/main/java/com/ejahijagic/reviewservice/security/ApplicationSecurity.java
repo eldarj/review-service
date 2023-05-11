@@ -2,6 +2,7 @@ package com.ejahijagic.reviewservice.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,8 +41,9 @@ public class ApplicationSecurity {
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .anyRequest()
-                .authenticated()
+                .antMatchers(HttpMethod.GET, "/api/product-reviews", "/api/product-reviews/*")
+                .permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .httpBasic();
 

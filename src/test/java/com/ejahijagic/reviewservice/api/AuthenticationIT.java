@@ -31,9 +31,13 @@ public class AuthenticationIT {
                 .then()
                 .statusCode(401);
 
+        given().get("/api/product-reviews")
+                .then()
+                .statusCode(200);
+
         given().get("/api/product-reviews/ABC123")
                 .then()
-                .statusCode(401);
+                .statusCode(200);
 
         given().body(request).contentType(JSON)
                 .put("/api/product-reviews/ABC123")
