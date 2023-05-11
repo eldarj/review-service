@@ -12,6 +12,18 @@ services:
       - review_service_data:/data/db
     networks:
       - challenge-network
+
+  mongo-seed:
+    image: mongo:4.4.0
+    depends_on:
+      - review-service-mongodb
+    volumes:
+      - ./mongo:/import
+    command:
+      /import/seed.sh
+    networks:
+      - challenge-network
+
   spring-service:
     image: ejahijagic/review-service:latest
     container_name: review-service
