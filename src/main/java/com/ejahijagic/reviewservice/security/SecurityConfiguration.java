@@ -1,15 +1,15 @@
 package com.ejahijagic.reviewservice.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -17,13 +17,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @Configuration
-public class ApplicationSecurity {
+@RequiredArgsConstructor
+public class SecurityConfiguration {
 
     private final SecurityProperties securityProperties;
 
-    public ApplicationSecurity(SecurityProperties securityProperties) {
-        this.securityProperties = securityProperties;
-    }
+    private final ServiceAuthenticationManager serviceAuthenticationManager;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -41,11 +40,16 @@ public class ApplicationSecurity {
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/product-reviews", "/api/product-reviews/*")
+                .antMatchers(HttpMethod.GET, "/api/review", "/api/review/*")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic();
+                .httpBasic()
+                .and()
+                .addFilterBefore(
+                        new ServiceSecurityFilter(serviceAuthenticationManager),
+                        BasicAuthenticationFilter.class
+                );
 
         return http.build();
     }
@@ -54,14 +58,10 @@ public class ApplicationSecurity {
     public InMemoryUserDetailsManager userDetailsService() {
         UserDetails user = User.withDefaultPasswordEncoder()
                 .username("root")
-                .password("toor")
-                .roles("SOME_ROLE")
+                .password("root")
+                .roles("USER_ROLE")
                 .build();
 
         return new InMemoryUserDetailsManager(user);
-    }
-
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(8);
     }
 }

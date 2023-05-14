@@ -24,11 +24,11 @@ services:
     networks:
       - challenge-network
 
-  spring-service:
+  review-service:
     image: ejahijagic/review-service:latest
     container_name: review-service
     ports:
-      - "8085:8085"
+      - "8085:8080"
     depends_on:
       - review-service-mongodb
     environment:

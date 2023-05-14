@@ -25,7 +25,7 @@ public class ProductReviewsFlowIT extends MongoDBIntegrationTest {
     @BeforeEach
     public void up() {
         RestAssured.port = port;
-        req = given().auth().basic("root", "toor");
+        req = given().auth().basic("root", "root");
     }
 
     @Test
@@ -33,11 +33,11 @@ public class ProductReviewsFlowIT extends MongoDBIntegrationTest {
         var request = new ProductReviewDocument("ABC123", 4.5, 100);
 
         req.body(request).contentType(JSON)
-                .post("/api/product-reviews")
+                .post("/api/review")
                 .then()
                 .statusCode(200);
 
-        var response = req.get("/api/product-reviews/ABC123")
+        var response = req.get("/api/review/ABC123")
                 .then()
                 .statusCode(200)
                 .extract().body().as(ProductReviewDocument.class);
@@ -49,16 +49,16 @@ public class ProductReviewsFlowIT extends MongoDBIntegrationTest {
     public void when_a_review_has_been_updated_then_get_returns_expected_data() {
         var request = new ProductReviewDocument("ABC123", 3.0, 1);
 
-        req.body(request).contentType(JSON).post("/api/product-reviews");
+        req.body(request).contentType(JSON).post("/api/review");
 
         request.setAverageReviewScore(4.0);
         request.setNumberOfReviews(2);
         req.body(request).contentType(JSON)
-                .put("/api/product-reviews/ABC123")
+                .put("/api/review/ABC123")
                 .then()
                 .statusCode(200);
 
-        var response = req.get("/api/product-reviews/ABC123").then()
+        var response = req.get("/api/review/ABC123").then()
                 .statusCode(200)
                 .extract().body().as(ProductReviewDocument.class);
 
@@ -70,12 +70,12 @@ public class ProductReviewsFlowIT extends MongoDBIntegrationTest {
         var request = new ProductReviewDocument("ABC123", 4.5, 100);
 
         req.body(request).contentType(JSON)
-                .post("/api/product-reviews")
+                .post("/api/review")
                 .then()
                 .statusCode(200);
 
-        req.delete("/api/product-reviews/ABC123").then().statusCode(200);
+        req.delete("/api/review/ABC123").then().statusCode(200);
 
-        req.get("/api/product-reviews/ABC123").then().statusCode(404);
+        req.get("/api/review/ABC123").then().statusCode(404);
     }
 }

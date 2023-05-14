@@ -8,3 +8,7 @@ spring:
 
 security:
   allowed-origin: '*'
+
+
+products-service:
+  token: PPn1bOpkch0cfb3b527e01a03d1b7445b8edf940b94a97e310

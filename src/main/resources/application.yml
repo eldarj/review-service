@@ -1,4 +1,4 @@
-server.port: 8085
+server.port: 8080
 
 spring:
   data:
@@ -9,3 +9,5 @@ spring:
 application:
   security:
     allowed-origin: ${ALLOWED_ORIGIN:*}
+    public-signature-key: ${PUBLIC_SIGNATURE_KEY:public-key}
+    private-signature-key: ${SIGNING_SIGNATURE_KEY:secret-signing-key}

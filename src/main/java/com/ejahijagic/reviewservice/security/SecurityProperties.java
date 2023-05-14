@@ -14,4 +14,8 @@ import org.springframework.context.annotation.Configuration;
 public class SecurityProperties {
 
     private String allowedOrigin;
+
+    private String privateSignatureKey;
+
+    private String publicSignatureKey;
 }
